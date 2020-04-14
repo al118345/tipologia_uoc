@@ -1,88 +1,44 @@
-# Project Title
+# UOC Tipologia de Datos
 
-One Paragraph of project description goes here
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+La temática elegida para nuestro trabajo a sido la actual sobre el Coronavirus o COVID-19. Este virus ha entrado en la vida de todas las personas del planeta desde hace unos pocos meses, llevando su letalidad a parar las actividades normales de todo tipo (trabajos, rutinas…). En la actualidad, este es un tema recurrente y sobre el que se tiene información casi las 24 horas del día, debido a su notoriedad y magnitud.
+
+En cuanto a las fuentes elegidas, se ha seleccionado la web oficial del gobierno de España y la web Worldometers como fuentes estadísticas. Ambas webs proporcionan datos actualizados del virus, la primera de España y la segunda a nivel mundial. De esta forma, se consideran fuentes fiables debido a que, en la primera, el gobierno es el que proporcionaría los datos; y la segunda debido a que, tras realizar un proceso de investigación, se ha visto que los datos que utilizan se corresponden con los de los gobiernos correspondientes.
+
+Además, hemos utilizado Twitter como fuente textual, una red sociales en la que se puede recolectar datos de forma más sencilla y, sobre todo, inmediata, necesario para  establecer correlaciones temporales entre la evolución del virus y la opinión del mismo de la sociedad.
+
+Esta plataforma permite él envió de mensajes en texto plano de corta longitud por parte de los usuarios, con un máximo de 280 caracteres. Estos mensajes, llamados tweets, se muestran en la página principal del usuario y pueden ser capturados a través de una API proporcionada por la propia red social.
+
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
-
 ```
-Give examples
+tweepy
+bs4
+selenium
+time
+pandas
 ```
 
 ### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+Para ejecutar este proyecto es necesario ejecutar el siguiente comando y añadir las credenciales de acceso a la api de twitter. 
 
 ```
-Give the example
+python get-pip.py install -r requirements.txt
 ```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/al118345/tipologia_uoc/edit/master/tags). 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+Roberto Alexander Cerviño Cortinez
+Rubén Pérez Ibáñez
 
 ## License
+Released Under CC BY-SA 4.0 License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
 

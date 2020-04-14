@@ -15,11 +15,13 @@ Esta plataforma permite él envió de mensajes en texto plano de corta longitud 
 
 En este repositorio se pueden encontrar los siguientes ficheros:
 
-* **Tweepy.py** Este fichero recoge el código que ejecuta el web scraping y recoge los tweets, así como la formación del dataset final.
+* **Carpeta Code** En esta carpeta se recogen los ficheros que conforman el código total utilizado para la creación del dataset final. Los ficheros que se encuentran dentro de la misma son:
+
+  * **Tweepy.py** Este fichero recoge el código que ejecuta el web scraping y recoge los tweets, así como la formación del dataset final.
+
+  * **autenticate.py**  Este archivo es un fichero auxiliar donde se referencian las credenciales para acceder a la API de Twitter y obtener los tweets.
 
 * **chromedriver.exe** Este ejecutable es necesario para la realización del web scraping en el código (debe estar en consonancia con la versión de Google Chrome que se posea).
-
-* **autenticate.py**  Este archivo es un fichero auxiliar donde se referencian las credenciales para acceder a la API de Twitter y obtener los tweets.
 
 * **base_de_datos_covid.csv** Este fichero recogería el dataset final tras la ejecución del código mencionado.
 

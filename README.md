@@ -11,6 +11,16 @@ Además, hemos utilizado Twitter como fuente textual, una red sociales en la que
 
 Esta plataforma permite él envió de mensajes en texto plano de corta longitud por parte de los usuarios, con un máximo de 280 caracteres. Estos mensajes, llamados tweets, se muestran en la página principal del usuario y pueden ser capturados a través de una API proporcionada por la propia red social.
 
+### Files
+
+Los ficheros que se pueden encontrar en este repositorio son:
+
+Tweety.py - Este fichero recogería el código encargado de obtener los tweets relativos al COVID-19, así como de coger los datos territoriales sobre el mismo y generar el dataset final.
+autenticate.py - En este fichero se deben indicar las credenciales para acceder a la API de Twitter para obtener los tweets.
+base_de_datos_covid.csv - Este elemento constituye el conjunto de datos obtenido de la ejecución del código.
+chromedriver.exe - Este ejecutable es necesario para realizar el Web Scraping referido en el código.
+requirements.txt - Este es un fichero de texto en el que se explican los paquetes necesarios para ejecutar el código.
+
 
 ### Prerequisites
 

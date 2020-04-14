@@ -17,13 +17,13 @@ En este repositorio se pueden encontrar los siguientes ficheros:
 
 * **Tweepy.py** Este fichero recoge el código que ejecuta el web scraping y recoge los tweets, así como la formación del dataset final.
 
-* **chromedriver.exe** - Este ejecutable es necesario para la realización del web scraping en el código (debe estar en consonancia con la versión de Google Chrome que se posea).
+* **chromedriver.exe** Este ejecutable es necesario para la realización del web scraping en el código (debe estar en consonancia con la versión de Google Chrome que se posea).
 
-* **autenticate.py** - Este archivo es un fichero auxiliar donde se referencian las credenciales para acceder a la API de Twitter y obtener los tweets.
+* **autenticate.py**  Este archivo es un fichero auxiliar donde se referencian las credenciales para acceder a la API de Twitter y obtener los tweets.
 
-* **base_de_datos_covid.csv** - Este fichero recogería el dataset final tras la ejecución del código mencionado.
+* **base_de_datos_covid.csv** Este fichero recogería el dataset final tras la ejecución del código mencionado.
 
-* **requirements.txt** - Este archivo menciona los paquetes Python necesarios para ejecutar el código.
+* **requirements.txt** Este archivo menciona los paquetes Python necesarios para ejecutar el código.
 
 ### Prerequisites
 

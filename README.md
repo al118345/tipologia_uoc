@@ -35,8 +35,8 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-Roberto Alexander Cerviño Cortinez
-Rubén Pérez Ibáñez
+* Roberto Alexander Cerviño Cortinez
+* Rubén Pérez Ibáñez
 
 ## License
 Released Under CC BY-SA 4.0 License

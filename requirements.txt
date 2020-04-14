@@ -1,0 +1,7 @@
+#python get-pip.py install -r requirements.txt
+
+tweepy
+bs4
+selenium
+time
+pandas

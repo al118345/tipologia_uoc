@@ -7,7 +7,8 @@ import time
 import pandas as pd
 from datetime import date
 import os
-from autenticate import get_auth
+
+from Code.autenticate import get_auth
 
 '''
 Este metodo se encarga de acceder a las web   'https://covid19.isciii.es'

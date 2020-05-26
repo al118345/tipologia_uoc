@@ -3,5 +3,4 @@
 tweepy
 bs4
 selenium
-time
 pandas

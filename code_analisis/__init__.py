@@ -54,11 +54,11 @@ def new_pandas_agrupado(df):
     print('He obtenido que el mes 4 dia 27 a las 13 es la hora más popular')
     print(grouped.iloc[grouped['total'].idxmax()] )
 
-    aggregation = ["mes", "dia", ]
+    aggregation = ["mes", "dia" ]
     grouped2 = df.groupby(aggregation).dia.agg('count').to_frame(
         'total').reset_index()
     print('He obtenido que el mes 4 dia 14 es el dia con más tweets.')
-    print(grouped2.iloc[grouped['total'].idxmax()])
+    print(grouped2.iloc[grouped2['total'].idxmax()])
 
 
 

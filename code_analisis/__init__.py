@@ -99,7 +99,7 @@ def add_sentiment(df):
             popularidad_list_text.append('neutral')
         else:
             popularidad_list_text.append('negative')
-        time.sleep(0.25)
+        time.sleep(1.2)
         analysis_ready = analysis_ready.sentiment
         popularidad = analysis_ready.polarity
         popularidad_list.append(popularidad)
@@ -137,7 +137,9 @@ if __name__ == '__main__':
     df = read_csv(_path_file,_file_name)
     df=clean_data(df)
     agrupado=new_pandas_agrupado(df)
-    sentimiento = add_sentiment(df[:1000])
+    #sentimiento = add_sentiment(df[:1000])
+    sentimiento = add_sentiment(df)
+
     write_csv(_path_file,_file_name_result,sentimiento)
     GraficarDatos(list(range(1, sentimiento.shape[0]+1)) , sentimiento['sentimiento'].values.tolist())
 

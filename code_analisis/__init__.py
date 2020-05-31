@@ -84,12 +84,21 @@ def add_sentiment(df):
     print(number)
     for i in df['Texto']:
         analisis = TextBlob(i)
-        language = analisis.detect_language()
+        try:
+            language = analisis.detect_language()
 
-        if language == 'en':
+            if language == 'en':
+                analysis_ready = analisis
+            else:
+                if language == 'en':
+                    analysis_ready = analisis
+                else:
+                    try:
+                        analysis_ready = analisis.translate(to='en')
+                    except:
+                        analysis_ready = analisis
+        except:
             analysis_ready = analisis
-        else:
-            analysis_ready = analisis.translate(to='en')
 
         if analysis_ready.sentiment.polarity > 0:
             popularidad_list_text.append('positive')
@@ -128,21 +137,135 @@ def GraficarDatosSentimientos(numeros_list, popularidad_list):
     plt.show()
 
 
+
+def GraficarDatosSentimientos_lista(df):
+
+    axes = plt.gca()
+    axes.set_ylim([-1, 2])
+    aggregation = ["mes", "dia"]
+    grouped2 = df.groupby(aggregation).sentimiento.agg('mean').to_frame(
+        'mediana').reset_index()
+
+    plt.scatter(grouped2["dia"].values.tolist(), grouped2["mediana"].values.tolist())
+    popularidadPromedio = (sum(grouped2["mediana"].values.tolist())) / (len(grouped2["mediana"].values.tolist()))
+    popularidadPromedio = "{0:.0f}%".format(popularidadPromedio * 100)
+    plt.text(0, 1.25,
+             "Sentimiento promedio:  " + str(popularidadPromedio) + "\n" ,
+             fontsize=12,
+             bbox=dict(facecolor='none',
+                       edgecolor='black',
+                       boxstyle='square, pad = 1'))
+
+    plt.title("Sentimientos sobre coronavirus en castellano en twitter")
+    plt.xlabel("Numero de tweets")
+    plt.ylabel("Sentimiento")
+    plt.show()
+
+
+
+
+
+def show_evoluction_pandemic_ccaa(df):
+    # creo la columna mes para las agrupaciones
+    df['mes-dia'] = pd.DatetimeIndex(df['Fecha_creación']).strftime(
+        "%m") + '-' + pd.DatetimeIndex(df['Fecha_creación']).strftime("%d")
+
+    df['hora'] = pd.DatetimeIndex(df['Fecha_creación']).hour
+
+    numericalData = df.iloc[:, 2:-1]
+    numericalData = numericalData.drop_duplicates(keep='last', subset='mes-dia')
+    ccaa = []
+    ranges = []
+    for i in range(0, 19):
+        ranges.append(i)
+    ranges.append(-1)
+
+    dates = []
+    for i in numericalData['mes-dia']:
+        dates.append(str(i))
+
+    ccaa = numericalData.iloc[:, ranges]
+    countries = ccaa.iloc[:, :-1].columns
+    for i, country in enumerate(countries):
+        plt.xlabel('Fecha')
+        plt.ylabel('Casos')
+        plt.title('Cases by date in %s' % country)
+        plt.plot(ccaa['mes-dia'], ccaa[countries[i]])
+        plt.xticks(rotation='vertical')
+        plt.show()
+
+def show_evoluction_pandemic_world_cases(df):
+    # creo la columna mes para las agrupaciones
+    df['mes-dia'] = pd.DatetimeIndex(df['Fecha_creación']).strftime(
+        "%m") + '-' + pd.DatetimeIndex(df['Fecha_creación']).strftime("%d")
+
+    df['hora'] = pd.DatetimeIndex(df['Fecha_creación']).hour
+    ccaa = []
+    ranges = []
+    for i in range(0, 19):
+        ranges.append(i)
+    ranges.append(-1)
+
+    numericalData = df.iloc[:, 2:-1]
+    numericalData = numericalData.drop_duplicates(keep='last', subset='mes-dia')
+
+    world = numericalData.iloc[:,19:33]
+
+    countries = world.columns
+    n_rows = len(countries)-1 // 2 + 1
+    for i, country in enumerate(countries):
+        plt.xlabel('Fecha')
+        plt.ylabel('Casos')
+        plt.title('Cases by date in %s'% country)
+        plt.plot(ccaa['mes-dia'],world[countries[i]])
+        plt.xticks(rotation='vertical')
+        plt.show()
+
+def show_evoluction_pandemic_world_dead(df):
+    df['mes-dia'] = pd.DatetimeIndex(df['Fecha_creación']).strftime(
+        "%m") + '-' + pd.DatetimeIndex(df['Fecha_creación']).strftime("%d")
+
+    ccaa = []
+    ranges = []
+    for i in range(0, 19):
+        ranges.append(i)
+    ranges.append(-1)
+
+    numericalData = df.iloc[:, 2:-1]
+    numericalData = numericalData.drop_duplicates(keep='last', subset='mes-dia')
+
+
+#Se muestra la evolución a nivel mundial delas MUERTES
+    worldDead = numericalData.iloc[:,33:-1]
+
+    countries = worldDead.columns
+    n_rows = len(countries)-1 // 2 + 1
+    for i, country in enumerate(countries):
+        plt.xlabel('Fecha')
+        plt.ylabel('Muertes')
+        plt.title('Cases by date in %s'% country)
+        plt.plot(ccaa['mes-dia'],worldDead[countries[i]])
+        plt.xticks(rotation='vertical')
+        plt.show()
+
+
 if __name__ == '__main__':
     _path_file = '../files/'
     _file_name = 'result.csv'
     _file_name_result = 'analizado.csv'
-    df = read_csv(_path_file,_file_name)
-    df=clean_data(df)
-    agrupado=new_pandas_agrupado(df)
 
 
-
+    _file_name = _file_name_result
 
     #sentimiento = add_sentiment(df[:1000])
-    sentimiento = add_sentiment(df)
-    write_csv(_path_file,_file_name_result,sentimiento)
-    GraficarDatosSentimientos(list(range(1, sentimiento.shape[0]+1)) , sentimiento['sentimiento'].values.tolist())
+    sentimiento= read_csv(_path_file,_file_name_result)
+    sentimiento = sentimiento.drop(sentimiento.columns[0], axis=1)
+
+    #GraficarDatosSentimientos(list(range(1, sentimiento.shape[0]+1)) , sentimiento['sentimiento'].values.tolist())
+    GraficarDatosSentimientos_lista(sentimiento)
+    sentimiento_agrupado = new_pandas_agrupado(sentimiento)
+    #show_evoluction_pandemic_world_dead(sentimiento)
+
 
 
 

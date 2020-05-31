@@ -68,12 +68,12 @@ def new_pandas_agrupado(df):
     #print('He obtenido que el mes 4 dia 27 a las 13 es la hora más popular')
     print(grouped.iloc[grouped['total'].idxmax()] )
 
-    #aggregation = ["mes", "dia" ]
-    #grouped2 = df.groupby(aggregation).dia.agg('count').to_frame(
-    #    'total').reset_index()
+    aggregation = ["mes", "dia" ]
+    grouped2 = df.groupby(aggregation).dia.agg('count').to_frame(
+        'total').reset_index()
     #print('He obtenido que el mes 4 dia 14 es el dia con más tweets.')
    # print(grouped2.iloc[grouped2['total'].idxmax()])
-    return grouped
+    return grouped2
 
 
 def add_sentiment(df):
@@ -82,8 +82,6 @@ def add_sentiment(df):
 
     number = df.shape[0]
     print(number)
-
-
     for i in df['Texto']:
         analisis = TextBlob(i)
         language = analisis.detect_language()
@@ -110,7 +108,7 @@ def add_sentiment(df):
     return df
 
 
-def GraficarDatos(numeros_list, popularidad_list):
+def GraficarDatosSentimientos(numeros_list, popularidad_list):
     axes = plt.gca()
     axes.set_ylim([-1, 2])
 
@@ -137,11 +135,14 @@ if __name__ == '__main__':
     df = read_csv(_path_file,_file_name)
     df=clean_data(df)
     agrupado=new_pandas_agrupado(df)
+
+
+
+
     #sentimiento = add_sentiment(df[:1000])
     sentimiento = add_sentiment(df)
-
     write_csv(_path_file,_file_name_result,sentimiento)
-    GraficarDatos(list(range(1, sentimiento.shape[0]+1)) , sentimiento['sentimiento'].values.tolist())
+    GraficarDatosSentimientos(list(range(1, sentimiento.shape[0]+1)) , sentimiento['sentimiento'].values.tolist())
 
 
 

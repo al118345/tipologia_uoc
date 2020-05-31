@@ -4,3 +4,5 @@ tweepy
 bs4
 selenium
 pandas
+textblob
+matplotlib

@@ -17,6 +17,22 @@ def read_csv(path,filename):
 def write_csv(path,filename,df):
     df.to_csv(path+filename, encoding='utf-8')
 
+def to_latex(df):
+    number = 0
+    voy_por = 0
+    for i in df.columns:
+        if number == 4:
+            df1 = df.iloc[:, voy_por:voy_por + number]
+            voy_por = voy_por + number  # Remember that Python does not slice inclusive of the ending index.
+            number = 0
+            print(df1[:5].to_latex(index=False))
+        else:
+            number = number + 1
+    df1 = df.iloc[:, voy_por:voy_por + number]
+
+    print(df1[:5].to_latex(index=False))
+
+
 
 '''
 Param Dataframe

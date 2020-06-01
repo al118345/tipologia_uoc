@@ -9,8 +9,8 @@ Param path  to file y name of file
 '''
 def read_csv(path,filename):
     df = pd.read_csv(path+filename)
-    print(df.head(50))
-    print(df.info())
+    #print(df.head(50))
+    #print(df.info())
     return df
 
 
@@ -155,14 +155,16 @@ def GraficarDatosSentimientos(numeros_list, popularidad_list):
 
 
 def GraficarDatosSentimientos_lista(df):
-
     axes = plt.gca()
     axes.set_ylim([-1, 2])
-    aggregation = ["mes", "dia"]
+    df['mes-dia'] = pd.DatetimeIndex(df['Fecha_creación']).strftime(
+        "%m") + '-' + pd.DatetimeIndex(df['Fecha_creación']).strftime("%d")
+    aggregation = ['mes-dia']
+
     grouped2 = df.groupby(aggregation).sentimiento.agg('mean').to_frame(
         'mediana').reset_index()
 
-    plt.scatter(grouped2["dia"].values.tolist(), grouped2["mediana"].values.tolist())
+    plt.scatter(grouped2['mes-dia'].values.tolist(), grouped2["mediana"].values.tolist())
     popularidadPromedio = (sum(grouped2["mediana"].values.tolist())) / (len(grouped2["mediana"].values.tolist()))
     popularidadPromedio = "{0:.0f}%".format(popularidadPromedio * 100)
     plt.text(0, 1.25,
@@ -268,6 +270,7 @@ def show_evoluction_pandemic_world_dead(df):
 if __name__ == '__main__':
     _path_file = '../files/'
     _file_name = 'result.csv'
+    read_csv(_path_file,_file_name)
     _file_name_result = 'analizado.csv'
 
 
@@ -281,6 +284,7 @@ if __name__ == '__main__':
     GraficarDatosSentimientos_lista(sentimiento)
     sentimiento_agrupado = new_pandas_agrupado(sentimiento)
     #show_evoluction_pandemic_world_dead(sentimiento)
+
 
 
 

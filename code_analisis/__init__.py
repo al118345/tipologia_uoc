@@ -315,11 +315,13 @@ def word_cloud_save(sentimiento):
     sentimiento['Texto'] = sentimiento['Texto'].apply(lambda x: re.sub('[¡!@#$:).;,¿?&]', '', x.lower()))
     sentimiento['Texto'] = sentimiento['Texto'].apply(lambda x: re.sub('  ', ' ', x))
     stoplist = set(stopwords.words("spanish"))
+
     sentimiento['Texto'] = sentimiento['Texto'].apply(lambda x: ' '.join([word for word in x.split() if word not in (stoplist)]))
 
 
 
     # Crear la imagen con las palabras más frecuentes
+
     wordcloud = WordCloud(background_color="white", stopwords=stop_words, random_state=2016).generate(
         " ".join([i for i in sentimiento['Texto']]))
     # Preparar la figura

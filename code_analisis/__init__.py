@@ -182,7 +182,6 @@ def GraficarDatosSentimientos_lista(df):
 
 
 
-
 def show_evoluction_pandemic_ccaa(df):
     # creo la columna mes para las agrupaciones
     df['mes-dia'] = pd.DatetimeIndex(df['Fecha_creación']).strftime(
@@ -267,12 +266,80 @@ def show_evoluction_pandemic_world_dead(df):
         plt.show()
 
 
+def GraficarDatosSentimientos_boxplot(sentimiento):
+    sentimiento['mes-dia'] = pd.DatetimeIndex(sentimiento['Fecha_creación']).strftime(
+        "%m") + '-' + pd.DatetimeIndex(sentimiento['Fecha_creación']).strftime("%d")
+    sentimiento.boxplot(by='mes-dia',
+                           column=['sentimiento'],
+                           grid=False)
+    plt.savefig('box_dias.png')
+    plt.show()
+    sentimiento.boxplot(
+                        column=['sentimiento']
+                        )
+    plt.savefig('box_completo.png')
+    plt.show()
+
+
+def word_cloud_save(sentimiento):
+    import nltk
+    import re
+    from wordcloud import WordCloud, STOPWORDS
+
+    # Este proceso puede hacerse antes de forma manual, descargar las stopwords de la librerñia nltk
+    nltk.download('stopwords')
+    from nltk.corpus import stopwords
+    stop_words_sp = set(stopwords.words('spanish'))
+    stop_words_en = set(stopwords.words('english'))
+
+    stop_words = stop_words_sp | stop_words_en
+
+    from nltk import tokenize
+    import matplotlib
+    matplotlib.style.use('ggplot')
+    pd.options.mode.chained_assignment = None
+
+
+
+
+
+    # Remover URLs, RTs, y t tter handles
+    for i in range(len(sentimiento['Texto'])):
+        sentimiento['Texto'][i] = " ".join([word for word in sentimiento['Texto'][i].split()
+                                      if  'http' not in word and '@' not in word and '<' not in word and 'RT' not in word])
+
+    # Monitorear que se removieron las menciones y URLs
+
+
+    # Remover puntuación, se agregan símbolos del español
+    sentimiento['Texto'] = sentimiento['Texto'].apply(lambda x: re.sub('[¡!@#$:).;,¿?&]', '', x.lower()))
+    sentimiento['Texto'] = sentimiento['Texto'].apply(lambda x: re.sub('  ', ' ', x))
+    stoplist = set(stopwords.words("spanish"))
+    sentimiento['Texto'] = sentimiento['Texto'].apply(lambda x: ' '.join([word for word in x.split() if word not in (stoplist)]))
+
+
+
+    # Crear la imagen con las palabras más frecuentes
+    wordcloud = WordCloud(background_color="white", stopwords=stop_words, random_state=2016).generate(
+        " ".join([i for i in sentimiento['Texto']]))
+    # Preparar la figura
+    plt.figure(num=400, figsize=(20, 10), facecolor='k')
+    plt.imshow(wordcloud)
+    plt.axis("off")
+    plt.title("COVID")
+    plt.savefig('words.png')
+    plt.show()
+
+
+
+
+
+
 if __name__ == '__main__':
     _path_file = '../files/'
     _file_name = 'result.csv'
-    read_csv(_path_file,_file_name)
+    #read_csv(_path_file,_file_name)
     _file_name_result = 'analizado.csv'
-
 
     _file_name = _file_name_result
 
@@ -281,8 +348,11 @@ if __name__ == '__main__':
     sentimiento = sentimiento.drop(sentimiento.columns[0], axis=1)
 
     #GraficarDatosSentimientos(list(range(1, sentimiento.shape[0]+1)) , sentimiento['sentimiento'].values.tolist())
-    GraficarDatosSentimientos_lista(sentimiento)
-    sentimiento_agrupado = new_pandas_agrupado(sentimiento)
+    #GraficarDatosSentimientos_lista(sentimiento)
+    #GraficarDatosSentimientos_boxplot(sentimiento)
+    word_cloud_save(sentimiento)
+    #sentimiento_agrupado = new_pandas_agrupado(sentimiento)
+
     #show_evoluction_pandemic_world_dead(sentimiento)
 
 

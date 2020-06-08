@@ -392,7 +392,14 @@ def plot_corr(df):
 
     plt.show()
 
+    import seaborn as sns
 
+    #-- Matriz de correlación
+    df_corr = df.corr()
+    mask = np.triu(df_corr, k=1)
+    sns_plot = sns.heatmap(df_corr, cmap= 'YlGnBu', annot=True, fmt=".2f", mask=mask )
+    figure = sns_plot.get_figure()
+    figure.savefig('cor.png', dpi=400)
 
 
 if __name__ == '__main__':

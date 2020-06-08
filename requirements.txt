@@ -8,3 +8,4 @@ textblob
 matplotlib
 wordcloud
 nltk
+seaborn

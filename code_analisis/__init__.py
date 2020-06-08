@@ -333,6 +333,64 @@ def word_cloud_save(sentimiento):
     plt.show()
 
 
+def agrupacion_sentimiento_dia_mes_cant(sentimiento):
+    sentimiento['mes-dia'] = pd.DatetimeIndex(
+        sentimiento['Fecha_creación']).strftime(
+        "%m") + '-' + pd.DatetimeIndex(sentimiento['Fecha_creación']).strftime(
+        "%d")
+    aggregation = ['mes-dia']
+    agrupado= sentimiento.groupby(aggregation).sentimiento.agg('mean').to_frame(
+        'sentimiento').reset_index()
+
+
+
+    agrupado2= sentimiento.groupby(['mes-dia']).World_dead.agg('max').to_frame(
+        'muertes_mundo')
+    agrupado3 = sentimiento.groupby(['mes-dia']).Spain_dead.agg(
+        'max').to_frame(
+        'muertes_españa')
+
+    aux=  pd.merge(agrupado, agrupado2, on='mes-dia')
+    aux=  pd.merge(aux, agrupado3, on='mes-dia')
+    return aux
+
+
+
+
+
+
+def plot_corr(df):
+    '''Function plots a graphical correlation matrix for each pair of columns in the dataframe.
+
+    Input:
+        df: pandas DataFrame
+        size: vertical and horizontal size of the plot'''
+
+    import matplotlib.pyplot as plt
+    df = df.drop(df.columns[0], axis=1)
+    df['sentimiento'] =  pd.to_numeric(df['sentimiento'])
+    df["muertes_mundo"] = df["muertes_mundo"].str.replace(',', ".")
+
+    df["muertes_españa"] = df["muertes_españa"].str.replace(',', ".")
+
+    df['muertes_mundo'] =  pd.to_numeric(df['muertes_mundo'])
+
+    df['muertes_españa'] =  pd.to_numeric(df['muertes_españa'])
+
+    plt.matshow(df.corr())
+    plt.xticks(range(len(df.columns)), df.columns)
+    plt.yticks(range(len(df.columns)), df.columns)
+    plt.colorbar()
+    plt.savefig('cor.png')
+
+    plt.show()
+
+    from pandas.plotting import scatter_matrix
+
+    scatter_matrix(df, figsize=(6, 6))
+    plt.savefig('scatter.png')
+
+    plt.show()
 
 
 
@@ -348,11 +406,13 @@ if __name__ == '__main__':
     #sentimiento = add_sentiment(df[:1000])
     sentimiento= read_csv(_path_file,_file_name_result)
     sentimiento = sentimiento.drop(sentimiento.columns[0], axis=1)
-
+    sentimieento_agrupado=agrupacion_sentimiento_dia_mes_cant(sentimiento)
+    plot_corr(sentimieento_agrupado)
     #GraficarDatosSentimientos(list(range(1, sentimiento.shape[0]+1)) , sentimiento['sentimiento'].values.tolist())
     #GraficarDatosSentimientos_lista(sentimiento)
     #GraficarDatosSentimientos_boxplot(sentimiento)
-    word_cloud_save(sentimiento)
+    #word_cloud_save(sentimiento)
+
     #sentimiento_agrupado = new_pandas_agrupado(sentimiento)
 
     #show_evoluction_pandemic_world_dead(sentimiento)

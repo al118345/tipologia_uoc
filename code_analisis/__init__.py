@@ -69,14 +69,15 @@ def clean_dates(df):
     # creo la columna dia para las agrupaciones
     df['hora'] = pd.DatetimeIndex(df['Fecha_creación']).hour
     #print(df.head())
+    
+    df['mes-dia'] = pd.DatetimeIndex(df['Fecha_creación']).strftime("%") +'-'+pd.DatetimeIndex(df['Fecha_creación']).strftime("%d")
+
     return df
 
-def clean_numerical(df):
-    numericalData = df.iloc[:,2:]
-    
+def check_Empty(df):
+    numericalData = df
     #Check if there is any null
     print(numericalData.isnull().values.any())
-    
 
 def new_pandas_agrupado(df):
     aggregation = ["mes","dia","hora"]
@@ -355,7 +356,72 @@ def agrupacion_sentimiento_dia_mes_cant(sentimiento):
     return aux
 
 
+from scipy import stats
+from statistics import mean,stdev
+def check_Welch():
+    totalCases = []
+    totalDead = []
+    for j in numericalData['World_cases']:
+            totalCases.append(int(str(j).replace(',','')))
 
+    for j in numericalData['World_dead']:
+            totalDead.append(int(str(j).replace(',','')))
+    
+    t_score = stats.ttest_ind_from_stats(mean1=mean(totalCases), std1=stdev(totalCases), nobs1=2661, \
+                                   mean2=mean(totalDead), std2=stdev(totalDead), nobs2=2661, \
+                                   equal_var=False)
+    print(t_score)
+    
+from scipy.stats import levene 
+
+def check_Variance():
+    totalCases = []
+    totalDead = []
+    for j in numericalData['World_cases']:
+            totalCases.append(int(str(j).replace(',','')))
+
+    for j in numericalData['World_dead']:
+            totalDead.append(int(str(j).replace(',','')))
+
+    levene(totalCases,totalDead)
+    
+    
+    
+ def check_Outliers(df):
+    countries = df.columns
+    for i, country in enumerate(countries):
+        fig = plt.figure()
+        plt.title(country)    
+        intData = []
+        for j in numericalData[countries[i]]:
+            intData.append(int(str(j).replace(',','')))
+        plt.boxplot(intData)
+        plt.show()
+        
+        
+def check_Normality(df):
+    countries = numericalData.iloc[:,:-1].columns
+    for i, country in enumerate(countries):
+        fig = plt.figure()
+        plt.title(country)    
+        intData = []
+        for j in numericalData[countries[i]]:
+            intData.append(int(str(j).replace(',','')))
+        plt.hist(intData)
+        plt.show()
+        
+import statsmodels.api as sm
+     
+def plot_QQ(df):    
+    countries = numericalData.iloc[:,:-1].columns
+    for i, country in enumerate(countries):
+  
+        intData = []
+        for j in numericalData[countries[i]]:
+            intData.append(int(str(j).replace(',','')))
+        fig = sm.qqplot(np.stack(intData), fit=True,line='45')
+        plt.title(country)    
+        plt.show()
 
 
 

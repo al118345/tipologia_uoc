@@ -273,13 +273,14 @@ def GraficarDatosSentimientos_boxplot(sentimiento):
     sentimiento.boxplot(by='mes-dia',
                            column=['sentimiento'],
                            grid=False)
+    plt.xticks(rotation=90)
     plt.savefig('box_dias.png')
     plt.show()
     sentimiento.boxplot(
                         column=['sentimiento']
                         )
     plt.savefig('box_completo.png')
-    plt.show()
+    #plt.show()
 
 
 def word_cloud_save(sentimiento):
@@ -387,7 +388,7 @@ def check_Variance():
     
     
     
- def check_Outliers(df):
+def check_Outliers(df):
     countries = df.columns
     for i, country in enumerate(countries):
         fig = plt.figure()
@@ -480,10 +481,10 @@ if __name__ == '__main__':
     sentimiento= read_csv(_path_file,_file_name_result)
     sentimiento = sentimiento.drop(sentimiento.columns[0], axis=1)
     sentimieento_agrupado=agrupacion_sentimiento_dia_mes_cant(sentimiento)
-    plot_corr(sentimieento_agrupado)
+    #plot_corr(sentimieento_agrupado)
     #GraficarDatosSentimientos(list(range(1, sentimiento.shape[0]+1)) , sentimiento['sentimiento'].values.tolist())
     #GraficarDatosSentimientos_lista(sentimiento)
-    #GraficarDatosSentimientos_boxplot(sentimiento)
+    GraficarDatosSentimientos_boxplot(sentimiento)
     #word_cloud_save(sentimiento)
 
     #sentimiento_agrupado = new_pandas_agrupado(sentimiento)
